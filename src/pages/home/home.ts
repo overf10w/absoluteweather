@@ -5,18 +5,22 @@ import { City } from '../../models/city';
 import { CityService } from '../../services/city.service';
 import { WeatherService } from '../../services/weather.service';
 
+import { AboutPage } from '../about/about';
+
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
 export class HomePage {
 
-  constructor(public navCtrl: NavController,
+  constructor(
+    public navCtrl: NavController,
     private cityService: CityService,
     private weatherService: WeatherService,
     private menu: MenuController) {
-      menu.enable(true);
-     }
+    menu.enable(true);
+  }
 
   city: City;
   currentWeather: any;
@@ -39,6 +43,10 @@ export class HomePage {
 
   ngOnDestroy() {
     this.sub.unsubscribe();
+  }
+
+  goToOtherPage() {
+    this.navCtrl.push(AboutPage);
   }
 
   getWeather(cityName: any) {
