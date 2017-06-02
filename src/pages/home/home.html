@@ -7,31 +7,19 @@
 </ion-header>
 
 <ion-content padding>
-  <div *ngIf="currentWeather" class="col-md-5">
+  <div *ngIf="currentWeather">
     <h2>{{currentWeather.temperature}} &#8451;</h2>
     <div><b>{{currentWeather.summary}}</b></div>
     <div>{{currentWeather.dailySummary}}</div>
   </div>
-  <div *ngIf="hours" class="col-md-7">
-    <table class="table table-striped table-hover ">
-      <thead>
-        <tr>
-          <th>Time</th>
-          <th>t, &#8451;</th>
-          <th>Wind Speed</th>
-          <th>Wind Bearing</th>
-          <th>Humidity, &#37;</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let hour of hours">
-          <td><b>{{hour.time | date:'HH:mm'}}</b></td>
-          <td>{{hour.temperature}}</td>
-          <td>{{hour.windSpeed}}</td>
-          <td>{{hour.windBearing}}</td>
-          <td>{{hour.humidity}}</td>
-        </tr>
-      </tbody>
-    </table>
+  <div *ngIf="hours">
+    <ion-list>
+      <ion-item *ngFor="let hour of hours">
+        <h2>
+          {{hour.time | date:'HH:mm'}}
+        </h2>
+        <p>{{hour.temperature}} - {{hour.windSpeed}} - {{hour.windBearing}} - {{hour.humidity}}</p>
+      </ion-item>
+    </ion-list>
   </div>
 </ion-content>
