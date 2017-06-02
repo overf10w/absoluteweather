@@ -26,7 +26,6 @@ export class HomePage {
   currentWeather: any;
   hours: any[];
   cityName: string;
-  sub: any;
   errorMsg: any;
   searchQuery: string = '';
 
@@ -42,7 +41,7 @@ export class HomePage {
   }
 
   ngOnDestroy() {
-    this.sub.unsubscribe();
+
   }
 
   goToOtherPage() {
