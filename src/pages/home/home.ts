@@ -11,9 +11,9 @@ import { WeatherService } from '../../services/weather.service';
 })
 export class HomePage {
 
-  constructor(public navCtrl: NavController, 
-              private cityService: CityService, 
-              private weatherService: WeatherService) { }
+  constructor(public navCtrl: NavController,
+    private cityService: CityService,
+    private weatherService: WeatherService) { }
 
   city: City;
   currentWeather: any;
@@ -21,37 +21,33 @@ export class HomePage {
   cityName: string;
   sub: any;
   errorMsg: any;
+  searchQuery: string = '';
 
   ngOnInit() {
-    this.cityName = 'Kiev';
-    this.weatherService.getWeather(50.450100, 30.523)
-        .subscribe(forecast => {
-          console.log(forecast);
-          this.currentWeather = forecast.currently;
-          this.hours = forecast.hourly;
-        });
-    
-    // this.sub = this.route.params.subscribe(params => {
-    //   this.cityName = params['name'];
-    //   // this.city = this.cityService.getCityByName(this.cityName);
-    //   this.cityService.getCityFromGMapsByName(this.cityName)
-    //     .subscribe(city => {
-    //       this.city = city;
-    //     })
+    this.getWeather('Kiev');
+  }
 
-    //   // setTimeout --> so this.city won't be undefined
-    //   setTimeout(() => {
-    //     this.weatherService.getWeather(this.city.lat, this.city.lon)
-    //       .subscribe(forecast => {
-    //         this.currentWeather = forecast.currently;
-    //         this.hours = forecast.hourly;
-    //       }, err => this.errorMsg = <any>err);
-    //   }, 300);
-    // });
+  getItems(ev: any) {
+    if (!ev.target.value) {
+      this.cityName = 'Kiev';
+    }
+    this.getWeather(this.cityName);
   }
 
   ngOnDestroy() {
     this.sub.unsubscribe();
   }
 
+  getWeather(cityName: any) {
+    this.cityName = cityName;
+    this.cityService.getCityFromGMapsByName(cityName)
+      .subscribe(city => {
+        this.city = city;
+        this.weatherService.getWeather(city.lat, city.lon)
+          .subscribe(forecast => {
+            this.currentWeather = forecast.currently;
+            this.hours = forecast.hourly;
+          });
+      });
+  }
 }
