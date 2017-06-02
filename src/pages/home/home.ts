@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, MenuController } from 'ionic-angular';
 
 import { City } from '../../models/city';
 import { CityService } from '../../services/city.service';
@@ -13,7 +13,10 @@ export class HomePage {
 
   constructor(public navCtrl: NavController,
     private cityService: CityService,
-    private weatherService: WeatherService) { }
+    private weatherService: WeatherService,
+    private menu: MenuController) {
+      menu.enable(true);
+     }
 
   city: City;
   currentWeather: any;
