@@ -8,12 +8,15 @@
 
 <ion-content padding>
   <ion-searchbar 
-    [(ngModel)]="cityName"
-    (ionInput)="getItems($event)"
+    [(ngModel)]="cityName" 
+    (ionInput)="getItems($event)" 
     [debounce]="600">
   </ion-searchbar>
+  <div *ngIf="city">
+    <h2>{{ city.name }}:</h2>
+  </div>
   <div *ngIf="currentWeather">
-    <h2>{{currentWeather.temperature}} &#8451;</h2>
+    <h3><b>{{currentWeather.temperature}} &#8451;</b></h3>
     <div><b>{{currentWeather.summary}}</b></div>
     <div>{{currentWeather.dailySummary}}</div>
   </div>
