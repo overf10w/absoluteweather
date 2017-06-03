@@ -9,27 +9,36 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <button (click)="goToOtherPage()">
-      Go to OtherPage
-  </button>
-  <ion-searchbar [(ngModel)]="cityName" (ionInput)="getItems($event)" [debounce]="600">
-  </ion-searchbar>
-  <div *ngIf="city">
-    <h2>{{ city.name }}:</h2>
+<ion-content class="list-avatar-page">
+  <!-- HERE WILL BE CARD OR BADGE -->
+  <div *ngIf="city && currentWeather">
+    <ion-card>
+      <img src="https://cache-graphicslib.viator.com/graphicslib/thumbs360x240/35593/SITours/kiev-pechersk-lavra-monastery-in-kiev-356562.jpg" />
+      <ion-card-content>
+        <ion-card-title>
+          {{city.name}}: {{currentWeather.temperature}} &#8451;
+        </ion-card-title>
+        <p>
+          {{currentWeather.summary}}
+        </p>
+      </ion-card-content>
+    </ion-card>
   </div>
-  <div *ngIf="currentWeather">
-    <h3><b>{{currentWeather.temperature}} &#8451;</b></h3>
-    <div><b>{{currentWeather.summary}}</b></div>
-    <div>{{currentWeather.dailySummary}}</div>
-  </div>
+  
   <div *ngIf="hours">
     <ion-list>
+      <ion-list-header>03.06.2017</ion-list-header>
       <ion-item *ngFor="let hour of hours">
+        <div item-start class="kek">
+          <label style="padding:0px;">
+            <b>{{hour.time | date:'HH:mm'}}</b>
+          </label>
+        </div>
         <h2>
-          {{hour.time | date:'HH:mm'}}
-        </h2>
-        <p>{{hour.temperature}} - {{hour.windSpeed}} - {{hour.windBearing}} - {{hour.humidity}}</p>
+          <ion-icon name="thunderstorm"></ion-icon> {{hour.temperature}} &#8451;</h2>
+        <h3>Wind: {{hour.windSpeed}}, {{hour.windBearing}}</h3>
+        <p>Humidity: {{hour.humidity}}</p>
+        <!--<ion-note item-right>{{hour.time | date:'HH:mm'}}</ion-note>-->
       </ion-item>
     </ion-list>
   </div>
