@@ -8,12 +8,12 @@
     </ion-title>
   </ion-navbar>
 </ion-header>
-
 <ion-content class="list-avatar-page">
-  <!-- HERE WILL BE CARD OR BADGE -->
+  <ion-searchbar [(ngModel)]="cityName" (ionInput)="getItems($event)" [debounce]="1000">
+  </ion-searchbar>
   <div *ngIf="city && currentWeather">
     <ion-card>
-      <img src="https://cache-graphicslib.viator.com/graphicslib/thumbs360x240/35593/SITours/kiev-pechersk-lavra-monastery-in-kiev-356562.jpg" />
+      <img *ngIf="cityPic" [src]="cityPic" />
       <ion-card-content>
         <ion-card-title>
           {{city.name}}: {{currentWeather.temperature}} &#8451;

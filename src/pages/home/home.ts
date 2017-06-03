@@ -4,6 +4,7 @@ import { NavController, MenuController } from 'ionic-angular';
 import { City } from '../../models/city';
 import { CityService } from '../../services/city.service';
 import { WeatherService } from '../../services/weather.service';
+import { ImageService } from '../../services/image.service';
 
 import { AboutPage } from '../about/about';
 
@@ -18,6 +19,7 @@ export class HomePage {
     public navCtrl: NavController,
     private cityService: CityService,
     private weatherService: WeatherService,
+    private imageService: ImageService,
     private menu: MenuController) {
     menu.enable(true);
   }
@@ -28,6 +30,7 @@ export class HomePage {
   cityName: string;
   errorMsg: any;
   searchQuery: string = '';
+  cityPic: string;
 
   ngOnInit() {
     this.getWeather('Kiev');
@@ -50,6 +53,14 @@ export class HomePage {
 
   getWeather(cityName: any) {
     this.cityName = cityName;
+
+    this.imageService.getImages(this.cityName)
+      .subscribe(images => { 
+        // console.log(images);
+        this.cityPic = images.items[Math.floor(Math.random()*images.items.length)].link;
+        // console.log(this.cityPic);
+      });
+
     this.cityService.getCityFromGMapsByName(cityName)
       .subscribe(city => {
         this.city = city;

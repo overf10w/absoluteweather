@@ -12,6 +12,7 @@ import { AboutPage } from '../pages/about/about';
 
 import { WeatherService } from '../services/weather.service';
 import { CityService } from '../services/city.service';
+import { ImageService } from '../services/image.service';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { CityService } from '../services/city.service';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     WeatherService,
-    CityService
+    CityService,
+    ImageService
   ]
 })
 export class AppModule {}
