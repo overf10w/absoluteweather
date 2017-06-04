@@ -47,10 +47,6 @@ export class HomePage {
 
   }
 
-  goToOtherPage() {
-    this.navCtrl.push(AboutPage);
-  }
-
   getWeather(cityName: any) {
     this.cityName = cityName;
 
