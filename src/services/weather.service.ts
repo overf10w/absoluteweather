@@ -9,19 +9,23 @@ import { Forecast } from '../models/forecast';
 
 @Injectable()
 export class WeatherService {
-  url: string;
-
+  
   constructor(private http: Http) { }
 
   getWeather(latitude: number, longitude: number): Observable<Forecast> {
-    this.url = 'https://api.darksky.net/forecast/3bfcfdfa160eee3357357a6c3c400e6d/' +
-      latitude.toString() + ',' + longitude.toString() + '?units=ca';
-    return this.http.get(this.url)
+    let url = 'https://api.darksky.net/forecast/3bfcfdfa160eee3357357a6c3c400e6d/' +
+              latitude.toString() + 
+              ',' + 
+              longitude.toString() + 
+              '?units=ca';
+
+    return this.http.get(url)
       .map((res) => this.extractData(res))  // TODO pay attention to THIS!
       .catch(this.handleError);
   }
 
   private extractData(res: Response): Forecast {
+    console.log(res.json());
     let forecast = new Forecast();
     forecast.currently = res.json().currently;
     forecast.hourly = this.makeHours(res.json().hourly.data);

@@ -9,7 +9,6 @@ export class CityService {
   constructor(private http: Http) { }
 
   getCityFromGMapsByName(name) {
-    let city = new City();
     return this.http
       .get('https://maps.googleapis.com/maps/api/geocode/json?address=' + 
            name + 
