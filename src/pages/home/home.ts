@@ -2,12 +2,16 @@ import { Component } from '@angular/core';
 import { NavController, MenuController } from 'ionic-angular';
 
 import { City } from '../../models/city';
+import { Forecast } from '../../models/forecast';
 import { CityService } from '../../services/city.service';
 import { WeatherService } from '../../services/weather.service';
 import { ImageService } from '../../services/image.service';
 
 import { AboutPage } from '../about/about';
 
+import { Http, Response } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/mergeMap';
 
 @Component({
   selector: 'page-home',
@@ -48,23 +52,20 @@ export class HomePage {
   }
 
   getWeather(cityName: any) {
-    this.cityName = cityName;
-
-    this.imageService.getImages(this.cityName)
-      .subscribe(images => { 
-        // console.log(images);
-        this.cityPic = images.items[Math.floor(Math.random()*images.items.length)].link;
-        // console.log(this.cityPic);
-      });
-
     this.cityService.getCityFromGMapsByName(cityName)
-      .subscribe(city => {
+      // So flatMap acts kind of like subscribe,
+      // but it provides for chaining Observables
+      .flatMap(city => {
         this.city = city;
-        this.weatherService.getWeather(city.lat, city.lon)
-          .subscribe(forecast => {
-            this.currentWeather = forecast.currently;
-            this.hours = forecast.hourly;
-          });
+        return this.weatherService.getWeather(city.lat, city.lon);
+      })
+      .flatMap(forecast => {
+        this.currentWeather = forecast.currently;
+        this.hours = forecast.hourly;
+        return this.imageService.getImages(this.cityName);
+      })
+      .subscribe(images => {
+        this.cityPic = images.items[Math.floor(Math.random() * images.items.length)].link;
       });
   }
 }
